@@ -134,13 +134,13 @@ function getAllBadges(t) {
 
              var badges = [{
                       icon: daysSinceCreation < 15 ? CLOCK_ICON : CLOCK_ICON_WHITE,
-                      text: daysSinceCreation + " day" + daysSinceCreation < 15 ? "" : "s",
+                      text: daysSinceCreation + " day" + (daysSinceCreation < 15 ? "" : "s"),
                       color: daysSinceCreation < 15 ? null : 'red',
                       title: 'Open for'
                     },
                     {
                       icon: daysSinceUpdate < 7 ? HOURGLASS_ICON : HOURGLASS_ICON_WHITE,
-                      text: daysSinceUpdate + " day" + daysSinceUpdate < 7 ? "" : "s",
+                      text: daysSinceUpdate + " day" + (daysSinceUpdate < 7 ? "" : "s"),
                       color: daysSinceUpdate < 7 ? null : 'red',
                       title: 'Inactive for'
                     }

@@ -40,37 +40,10 @@ TrelloPowerUp.initialize({
 
 function getAllBadges(t, long) {
 
-   /*return t.getAll()
-    .then(function (data){
-        var w2plink = data.card.shared.w2plink;
-        var gitlablink = data.card.shared.gitlablink;
-        var badges = [];
-
-        if (w2plink && w2plink != "") {
-            badges.push({
-                icon: W2P_ICON,
-                text: 'W2P',
-                url: w2plink,
-                title: 'Task / Project'
-            });
-        }
-
-        if (gitlablink && gitlablink != "") {
-            badges.push({
-                icon: GIT_ICON,
-                text: 'Git',
-                url: gitlablink,
-                title: 'Branch / Commit'
-            });
-        }
-        return badges;
-        })*/
-
    return Promise.all([t.card('all'), t.getAll()])
         .then(function (values) {
-            console.log(values);
+
             var card = values[0];
-            console.log(JSON.stringify(card));
 
             var today = new Date();
             var creation = new Date(1000*parseInt(card.id.substring(0,8),16));
@@ -80,19 +53,17 @@ function getAllBadges(t, long) {
 
             var badges = [{
                   icon: daysSinceCreation < 15 ? CLOCK_ICON : CLOCK_ICON_WHITE,
-                  text: daysSinceCreation + " day" + (daysSinceCreation < 15 ? "" : "s"),
+                  text: daysSinceCreation + " day" + (daysSinceCreation < 2 ? "" : "s"),
                   color: daysSinceCreation < 15 ? null : 'red',
                   title: 'Open for'
                 },
                 {
                   icon: daysSinceUpdate < 7 ? HOURGLASS_ICON : HOURGLASS_ICON_WHITE,
-                  text: daysSinceUpdate + " day" + (daysSinceUpdate < 7 ? "" : "s"),
+                  text: daysSinceUpdate + " day" + (daysSinceUpdate < 2 ? "" : "s"),
                   color: daysSinceUpdate < 7 ? null : 'red',
                   title: 'Inactive for'
                 }
             ];
-
-            console.log(badges);
 
             var w2plink = values[1].card.shared.w2plink || "";
             var gitlablink = values[1].card.shared.gitlablink || "";
@@ -114,7 +85,7 @@ function getAllBadges(t, long) {
                     title: 'Branch / Commit'
                 });
             }
-            console.log(badges);
+
             return badges;
 
         })

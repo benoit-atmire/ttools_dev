@@ -31,16 +31,16 @@ TrelloPowerUp.initialize({
         }];
   },
   'card-badges': function(t, options) {
-    return getAllBadges(t);
+    return getAllBadges(t, false);
   },
   'card-detail-badges': function(t, options) {
-    return getAllBadges(t);
+    return getAllBadges(t, true);
   }
 });
 
-function getAllBadges(t) {
+function getAllBadges(t, long) {
 
-   return t.getAll()
+   /*return t.getAll()
     .then(function (data){
         var w2plink = data.card.shared.w2plink;
         var gitlablink = data.card.shared.gitlablink;
@@ -64,15 +64,14 @@ function getAllBadges(t) {
             });
         }
         return badges;
-        })
-   /*
+        })*/
+
    return Promise.all([t.card('all'), t.getAll()])
         .then(function (values) {
             console.log(values);
             var card = values[0];
-            var data = values[1];
             console.log(JSON.stringify(card));
-            console.log(JSON.stringify(data));
+
             var today = new Date();
             var creation = new Date(1000*parseInt(card.id.substring(0,8),16));
             var lastUpdate = new Date(card.dateLastActivity);
@@ -95,13 +94,13 @@ function getAllBadges(t) {
 
             console.log(badges);
 
-            var w2plink = data.card.shared.w2plink;
-            var gitlablink = data.card.shared.gitlablink;
+            var w2plink = values[1].card.shared.w2plink || "";
+            var gitlablink = values[1].card.shared.gitlablink || "";
 
             if (w2plink && w2plink != "") {
                 badges.push({
                     icon: W2P_ICON,
-                    text: 'W2P',
+                    text: long ? 'W2P' : null,
                     url: w2plink,
                     title: 'Task / Project'
                 });
@@ -110,7 +109,7 @@ function getAllBadges(t) {
             if (gitlablink && gitlablink != "") {
                 badges.push({
                     icon: GIT_ICON,
-                    text: 'Git',
+                    text: long ? 'Git' : null,
                     url: gitlablink,
                     title: 'Branch / Commit'
                 });
@@ -118,5 +117,5 @@ function getAllBadges(t) {
             console.log(badges);
             return badges;
 
-        })*/
+        })
 }

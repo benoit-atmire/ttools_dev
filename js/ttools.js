@@ -41,7 +41,7 @@ function getAllBadges(t, long) {
               return list.id === card.id;
             });
 
-            console.log(card.name + "is in list " + lists[i].name + " (" + (i+1) + "e list)");
+            console.log(card.name + "is in list " + lists[index].name + " (" + (index+1) + "e list)");
 
             // TODO: make this configurable in Power-up settings
 

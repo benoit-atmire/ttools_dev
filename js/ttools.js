@@ -21,7 +21,7 @@ TrelloPowerUp.initialize({
 
 function getAllBadges(t, long) {
 
-   return Promise.all([t.card('all'), t.getAll(), t.lists('all')])
+   return Promise.all([t.card('all'), t.getAll(), t.lists('id', 'name')])
         .then(function (values) {
             console.log(JSON.stringify(values[2]));
             var card = values[0];

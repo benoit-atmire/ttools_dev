@@ -38,7 +38,7 @@
 
 
     t.render(function(){
-      return Promise.all(t.lists('id', 'name'),t.get('board', 'shared', 'settings', ''))
+      return Promise.all([t.lists('id', 'name'),t.get('board', 'shared', 'settings', '')])
       .then(function(values){
 
         var html = "<table><th><td>List</td><td>Threshold creation</td><td>Threshold update</td></th>";

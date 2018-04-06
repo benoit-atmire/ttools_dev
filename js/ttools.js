@@ -129,7 +129,7 @@ function getAllBadges(t) {
    return Promise.all([t.getAll(), t.card('all')])
         .then(function (values) {
             console.log(values);
-            var card = values[1];Debug
+            var card = values[1];
             var data = values[0];
             console.log(JSON.stringify(card));
             console.log(JSON.stringify(data));

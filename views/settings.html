@@ -17,8 +17,8 @@
 
     document.getElementById("settings").addEventListener('submit', function(event){
       event.preventDefault();
-      var c_thresholds = [];
-      var u_thresholds = [];
+      var c_thresholds = {};
+      var u_thresholds = {};
 
       var c_fields = document.getElementsByClassName("c_field");
       var u_fields = document.getElementsByClassName("u_field");

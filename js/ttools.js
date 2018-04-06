@@ -126,11 +126,11 @@ function getAllBadges(t) {
 
     return badges;
 */
-   return Promise.all([t.getAll(), t.card('all')])
+   return Promise.all([t.card('all'), t.get('card', 'shared', 'w2plink'), t.get('card', 'shared', 'gitlablink')])
         .then(function (values) {
             console.log(values);
-            var card = values[1];
-            var data = values[0];
+            var card = values[0];
+            //var data = values[0];
             console.log(JSON.stringify(card));
             console.log(JSON.stringify(data));
             var today = new Date();
@@ -139,8 +139,8 @@ function getAllBadges(t) {
             var daysSinceCreation = Math.round(Math.abs((today.getTime() - creation.getTime())/(24*60*60*1000)));
             var daysSinceUpdate = Math.round(Math.abs((today.getTime() - lastUpdate.getTime())/(24*60*60*1000)));
 
-            var w2plink = data.card.shared.w2plink;
-            var gitlablink = data.card.shared.gitlablink;
+            var w2plink = values[1] || ""; //data.card.shared.w2plink;
+            var gitlablink = values[2] || ""; //data.card.shared.gitlablink;
 
             var badges = [{
                   icon: daysSinceCreation < 15 ? CLOCK_ICON : CLOCK_ICON_WHITE,

@@ -8,15 +8,22 @@ var HOURGLASS_ICON_WHITE = 'https://benoit-atmire.github.io/ttools_dev/img/hourg
 var Promise = TrelloPowerUp.Promise;
 
 TrelloPowerUp.initialize({
-  'card-buttons': function(t, options){
+    'card-buttons': function(t, options){
     return getCardButtons(t);
-  },
-  'card-badges': function(t, options) {
+    },
+    'card-badges': function(t, options) {
     return getAllBadges(t, false);
-  },
-  'card-detail-badges': function(t, options) {
+    },
+    'card-detail-badges': function(t, options) {
     return getAllBadges(t, true);
-  }
+    },
+    'show-settings': function(t, options){
+      return t.popup({
+        title: 'Settings',
+        url: 'views/settings.html',
+        height: 184
+      });
+    }
 });
 
 function getAllBadges(t, long) {

@@ -40,7 +40,8 @@ function getAllBadges(t, long) {
             var index = lists.findIndex(function(list, i){
               return list.id === card.id;
             });
-
+            console.log(JSON.strignify(card));
+            console.log(JSON.strignify(lists));
             console.log(card.name + "is in list " + lists[index].name + " (" + (index+1) + "e list)");
 
             // TODO: make this configurable in Power-up settings

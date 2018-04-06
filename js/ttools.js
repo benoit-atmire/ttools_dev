@@ -23,7 +23,6 @@ function getAllBadges(t, long) {
 
    return Promise.all([t.card('all'), t.getAll(), t.lists('id', 'name')])
         .then(function (values) {
-            console.log(JSON.stringify(values[2]));
             var card = values[0];
 
             var today = new Date();
@@ -36,6 +35,15 @@ function getAllBadges(t, long) {
             var threshold_update = 7;
 
             // TODO: automate calculation depending on list in which the card is
+            var lists = values[2];
+
+            var index = lists.findIndex(function(list, i){
+              return list.id === card.id;
+            });
+
+            console.log(card.name + "is in list " + lists[i].name + " (" + (i+1) + "e list)");
+
+            // TODO: make this configurable in Power-up settings
 
             var badges = [{
                   icon: daysSinceCreation < threshold_creation ? CLOCK_ICON : CLOCK_ICON_WHITE,

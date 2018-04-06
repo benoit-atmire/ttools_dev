@@ -8,7 +8,7 @@ var HOURGLASS_ICON_WHITE = 'https://benoit-atmire.github.io/ttools/img/hourglass
 var Promise = TrelloPowerUp.Promise;
 
 TrelloPowerUp.initialize({
-  /*'card-buttons': function(t, options){
+  'card-buttons': function(t, options){
     return [{
       icon: W2P_ICON,
       text: 'Add W2P link',
@@ -29,7 +29,7 @@ TrelloPowerUp.initialize({
                   });
                 }
         }];
-  },*/
+  },
   'card-badges': function(t, options) {
     return getAllBadges(t);
   },
@@ -128,8 +128,11 @@ function getAllBadges(t) {
 */
    return Promise.all([t.card('all'), t.getAll()])
         .then(function (values) {
+            console.log(values);
             var card = values[0];
             var data = values[1];
+            console.log(JSON.stringify(card));
+            console.log(JSON.stringify(data));
             var today = new Date();
             var creation = new Date(1000*parseInt(card.id.substring(0,8),16));
             var lastUpdate = new Date(card.dateLastActivity);
@@ -170,7 +173,7 @@ function getAllBadges(t) {
                     title: 'Branch / Commit'
                 });
             }
-
+            console.log(badges);
             return badges;
 
         })

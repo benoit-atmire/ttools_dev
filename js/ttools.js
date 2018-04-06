@@ -65,27 +65,28 @@ function getAllBadges(t, long) {
                 }
             ];
 
-            var w2plink = values[1].card.shared.w2plink || "";
-            var gitlablink = values[1].card.shared.gitlablink || "";
+            if (values[1] && values[1].card && values[1].card.shared) {
+                var w2plink = values[1].card.shared.w2plink || "";
+                var gitlablink = values[1].card.shared.gitlablink || "";
 
-            if (w2plink && w2plink != "") {
-                badges.push({
-                    icon: W2P_ICON,
-                    text: long ? 'W2P' : null,
-                    url: w2plink,
-                    title: 'Task / Project'
-                });
+                if (w2plink && w2plink != "") {
+                    badges.push({
+                        icon: W2P_ICON,
+                        text: long ? 'W2P' : null,
+                        url: w2plink,
+                        title: 'Task / Project'
+                    });
+                }
+
+                if (gitlablink && gitlablink != "") {
+                    badges.push({
+                        icon: GIT_ICON,
+                        text: long ? 'Git' : null,
+                        url: gitlablink,
+                        title: 'Branch / Commit'
+                    });
+                }
             }
-
-            if (gitlablink && gitlablink != "") {
-                badges.push({
-                    icon: GIT_ICON,
-                    text: long ? 'Git' : null,
-                    url: gitlablink,
-                    title: 'Branch / Commit'
-                });
-            }
-
             return badges;
 
         })

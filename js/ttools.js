@@ -88,7 +88,7 @@ function getCardButtons(t) {
                 w_label = "Edit W2P link";
             }
             if (data && data.card && data.card.shared && data.card.shared.gitlablink && data.card.shared.gitlablink != ""){
-                w_label = "Edit Git link";
+                g_label = "Edit Git link";
             }
 
             return [{
@@ -102,14 +102,14 @@ function getCardButtons(t) {
                         }
                 },
                 {
-                      icon: GIT_ICON,
-                      text: g_label,
-                      callback: function(t){
-                              return t.popup({
-                                title: "Git Link",
-                                url: 'views/gitlab.html'
-                              });
-                            }
+                  icon: GIT_ICON,
+                  text: g_label,
+                  callback: function(t){
+                          return t.popup({
+                            title: "Git Link",
+                            url: 'views/gitlab.html'
+                          });
+                        }
                     }];
         })
     ;

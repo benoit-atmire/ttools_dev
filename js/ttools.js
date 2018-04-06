@@ -1,9 +1,9 @@
-var W2P_ICON = 'https://benoit-atmire.github.io/ttools/img/w2p.png';
-var GIT_ICON = 'https://benoit-atmire.github.io/ttools/img/gitlab.png';
-var CLOCK_ICON = 'https://benoit-atmire.github.io/ttools/img/clock.png';
-var HOURGLASS_ICON = 'https://benoit-atmire.github.io/ttools/img/hourglass.png';
-var CLOCK_ICON_WHITE = 'https://benoit-atmire.github.io/ttools/img/clock_white.png';
-var HOURGLASS_ICON_WHITE = 'https://benoit-atmire.github.io/ttools/img/hourglass_white.png';
+var W2P_ICON = 'https://benoit-atmire.github.io/ttools_dev/img/w2p.png';
+var GIT_ICON = 'https://benoit-atmire.github.io/ttools_dev/img/gitlab.png';
+var CLOCK_ICON = 'https://benoit-atmire.github.io/ttools_dev/img/clock.png';
+var HOURGLASS_ICON = 'https://benoit-atmire.github.io/ttools_dev/img/hourglass.png';
+var CLOCK_ICON_WHITE = 'https://benoit-atmire.github.io/ttools_dev/img/clock_white.png';
+var HOURGLASS_ICON_WHITE = 'https://benoit-atmire.github.io/ttools_dev/img/hourglass_white.png';
 
 var Promise = TrelloPowerUp.Promise;
 
@@ -126,11 +126,11 @@ function getAllBadges(t) {
 
     return badges;
 */
-   return Promise.all([t.card('all'), t.getAll()])
+   return Promise.all([t.getAll(), t.card('all')])
         .then(function (values) {
             console.log(values);
-            var card = values[0];
-            var data = values[1];
+            var card = values[1];Debug
+            var data = values[0];
             console.log(JSON.stringify(card));
             console.log(JSON.stringify(data));
             var today = new Date();

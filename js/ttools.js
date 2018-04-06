@@ -21,9 +21,9 @@ TrelloPowerUp.initialize({
 
 function getAllBadges(t, long) {
 
-   return Promise.all([t.card('all'), t.getAll()])
+   return Promise.all([t.card('all'), t.getAll(), t.lists('all')])
         .then(function (values) {
-
+            console.log(JSON.stringify(values[2]));
             var card = values[0];
 
             var today = new Date();

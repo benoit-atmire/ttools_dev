@@ -47,13 +47,15 @@
         var settings = values[1];
         console.log(JSON.stringify(settings));
 
+        var hasSettings = (settings != '' && settings.c_thresholds && settings.u_thresholds);
+
         for (var i = 0 ; i < lists.length ; i++) {
 
             html += "<tr><td>" + lists[i].name + "</td>";
             html += "<td><input name='"+lists[i].id+"' class='c_field' type='number' ";
-            html += (settings != '' && settings.c_thresholds && settings.c_thresholds[lists[i].id] && settings.c_thresholds[lists[i].id] != '') ? "value='" + settings.c_thresholds[lists[i].id] + "' " : "";
+            html += (hasSettings && settings.c_thresholds[lists[i].id]) ? "value='" + settings.c_thresholds[lists[i].id] + "' " : "";
             html += "<td><input name='"+lists[i].id+"' class='u_field' type='number' value='" + settings.u_thresholds[lists[i].id] + " /></td>";
-            html += (settings != '' && settings.u_thresholds && settings.u_thresholds[lists[i].id] && settings.u_thresholds[lists[i].id] != '') ? "value='" + settings.u_thresholds[lists[i].id] + "' " : "";
+            html += (hasSettings && settings.u_thresholds[lists[i].id]) ? "value='" + settings.u_thresholds[lists[i].id] + "' " : "";
             html += "/></td></tr>";
         }
 

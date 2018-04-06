@@ -21,7 +21,8 @@ TrelloPowerUp.initialize({
       return t.popup({
         title: 'Settings',
         url: 'views/settings.html',
-        height: 184
+        height: 184,
+        width: 600
       });
     }
 });

@@ -38,19 +38,23 @@
 
 
     t.render(function(){
-      return Promise.all(t.lists('id', 'name'),t.get('board', 'shared', 'settings'))
+      return Promise.all(t.lists('id', 'name'),t.get('board', 'shared', 'settings', ''))
       .then(function(values){
 
         var html = "<table><th><td>List</td><td>Threshold creation</td><td>Threshold update</td></th>";
         var lists = values[0];
+        console.log(JSON.stringify(lists));
         var settings = values[1];
-        console.log(settings);
+        console.log(JSON.stringify(settings));
 
         for (var i = 0 ; i < lists.length ; i++) {
+
             html += "<tr><td>" + lists[i].name + "</td>";
-            html += "<td><input name='"+lists[i].id+"' class='c_field' type='number' value='" + settings.c_thresholds[lists[i].id] + " /></td>";
+            html += "<td><input name='"+lists[i].id+"' class='c_field' type='number' ";
+            html += (settings != '' && settings.c_thresholds && settings.c_thresholds[lists[i].id] && settings.c_thresholds[lists[i].id] != '') ? "value='" + settings.c_thresholds[lists[i].id] + "' " : "";
             html += "<td><input name='"+lists[i].id+"' class='u_field' type='number' value='" + settings.u_thresholds[lists[i].id] + " /></td>";
-            html += "</tr>";
+            html += (settings != '' && settings.u_thresholds && settings.u_thresholds[lists[i].id] && settings.u_thresholds[lists[i].id] != '') ? "value='" + settings.u_thresholds[lists[i].id] + "' " : "";
+            html += "/></td></tr>";
         }
 
         html += "</table>";

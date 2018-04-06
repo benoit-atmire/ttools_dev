@@ -29,7 +29,7 @@ TrelloPowerUp.initialize({
 
 function getAllBadges(t, long) {
 
-   return Promise.all([t.card('all'), t.getAll(), t.lists('id', 'name')])
+   return Promise.all([t.card('all'), t.getAll(), t.get('board', 'shared', 'settings', '')])
         .then(function (values) {
             var card = values[0];
 
@@ -39,17 +39,16 @@ function getAllBadges(t, long) {
             var daysSinceCreation = Math.round(Math.abs((today.getTime() - creation.getTime())/(24*60*60*1000)));
             var daysSinceUpdate = Math.round(Math.abs((today.getTime() - lastUpdate.getTime())/(24*60*60*1000)));
 
+            // Defaults when no setting
+
             var threshold_creation = 60;
             var threshold_update = 7;
 
-            // TODO: automate calculation depending on list in which the card is
-            var lists = values[2];
+            var settings = values[2];
+            var hasSettings = (settings != '' && settings.c_thresholds && settings.u_thresholds);
 
-            var index = lists.findIndex(function(list, i){
-              return list.id === card.idList;
-            });
-
-            // TODO: make this configurable in Power-up settings
+            if (hasSettings && settings.c_thresholds[card.idList]) threshold_creation = settings.c_thresholds[card.idList];
+            if (hasSettings && settings.u_thresholds[card.idList]) threshold_update = settings.u_thresholds[card.idList];
 
             var badges = [{
                   icon: daysSinceCreation < threshold_creation ? CLOCK_ICON : CLOCK_ICON_WHITE,

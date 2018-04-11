@@ -2,7 +2,7 @@
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN"
               "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
 
-<svg xmlns="http://www.w3.org/2000/svg"
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
      width="2.77743in" height="2.77743in"
      viewBox="0 0 200 200">
 
@@ -84,5 +84,5 @@
              96.00,173.00 96.00,151.00 96.00,151.00
              96.00,151.00 102.00,151.00 102.00,151.00 Z" />
 
-             <script type="text/ecmascript" xlink:href="param.js" /> 
+             <script type="text/ecmascript" xlink:href="param.js" />
 </svg>

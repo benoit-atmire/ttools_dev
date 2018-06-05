@@ -4,6 +4,7 @@ var CLOCK_ICON = 'https://benoit-atmire.github.io/ttools_dev/img/clock.svg';
 var HOURGLASS_ICON = 'https://benoit-atmire.github.io/ttools_dev/img/hourglass.png';
 var CLOCK_ICON_WHITE = 'https://benoit-atmire.github.io/ttools_dev/img/clock.svg';
 var HOURGLASS_ICON_WHITE = 'https://benoit-atmire.github.io/ttools_dev/img/hourglass_white.png';
+var MONEY_ICON = 'https://benoit-atmire.github.io/ttools_dev/img/money.svg';
 
 var Promise = TrelloPowerUp.Promise;
 
@@ -29,7 +30,7 @@ TrelloPowerUp.initialize({
 
 function getAllBadges(t, long) {
 
-   return Promise.all([t.card('all'), t.getAll(), t.get('board', 'shared', 'settings', '')])
+   return Promise.all([t.card('all'), t.getAll(), t.get('board', 'shared', 'settings', ''), t.get('board', 'private', 'settings', '')])
         .then(function (values) {
             var card = values[0];
 
@@ -49,6 +50,9 @@ function getAllBadges(t, long) {
 
             if (hasSettings && settings.c_thresholds[card.idList]) threshold_creation = settings.c_thresholds[card.idList];
             if (hasSettings && settings.u_thresholds[card.idList]) threshold_update = settings.u_thresholds[card.idList];
+
+            var W2Psettings = values[3];
+            var hasW2PSettings = (W2Psettings != '' && W2Psettings.username && W2Psettings.password);
 
             var badges = [{
                   icon: daysSinceCreation < threshold_creation ? CLOCK_ICON : CLOCK_ICON_WHITE,
@@ -75,6 +79,16 @@ function getAllBadges(t, long) {
                         url: w2plink,
                         title: 'Task / Project'
                     });
+
+                    // If W2P credentials are known
+
+                    if (hasW2PSettings){
+                        badges.push({
+                            icon: MONEY_ICON,
+                            text: getCreditsSpent(w2plink, W2Psettings.username, W2Psettings.password),
+                            title: 'Credits'
+                        });
+                    }
                 }
 
                 if (gitlablink && gitlablink != "") {
@@ -127,3 +141,33 @@ function getCardButtons(t) {
         })
     ;
 }
+
+function getCreditsSpent(w2plink, username, password){
+    if (!w2plink || w2plink == "") return 0;
+
+        var taskId = getParams(w2plink).task_id;
+
+        var xmlhttp = new XMLHttpRequest();
+
+        xmlhttp.open("GET", "https://atmire.com/w2p-api/project/x/task/" + taskId + "?username=" + username + "&password=" + password, false);
+
+        xmlhttp.send();
+
+        if (xmlhttp.status != 200) return 0;
+
+        var response = JSON.parse(xmlhttp.responseText);
+        return response.task.task_hours_worked;
+}
+
+var getParams = function (url) {
+	var params = {};
+	var parser = document.createElement('a');
+	parser.href = url;
+	var query = parser.search.substring(1);
+	var vars = query.split('&');
+	for (var i = 0; i < vars.length; i++) {
+		var pair = vars[i].split('=');
+		params[pair[0]] = decodeURIComponent(pair[1]);
+	}
+	return params;
+};

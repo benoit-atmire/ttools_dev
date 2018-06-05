@@ -4,6 +4,7 @@ var CLOCK_ICON = 'https://benoit-atmire.github.io/ttools_dev/img/clock.svg';
 var HOURGLASS_ICON = 'https://benoit-atmire.github.io/ttools_dev/img/hourglass.png';
 var CLOCK_ICON_WHITE = 'https://benoit-atmire.github.io/ttools_dev/img/clock.svg';
 var HOURGLASS_ICON_WHITE = 'https://benoit-atmire.github.io/ttools_dev/img/hourglass_white.png';
+var MONEY_ICON = 'https://benoit-atmire.github.io/ttools_dev/img/money.svg';
 
 var Promise = TrelloPowerUp.Promise;
 
@@ -75,6 +76,15 @@ function getAllBadges(t, long) {
                         url: w2plink,
                         title: 'Task / Project'
                     });
+
+                    // If not long (only show on detailed view):
+
+                    if (!long){
+                        badges.push({
+                            icon: MONEY_ICON,
+                            text: getCreditsSpent(w2plink)
+                        });
+                    }
                 }
 
                 if (gitlablink && gitlablink != "") {
@@ -127,3 +137,33 @@ function getCardButtons(t) {
         })
     ;
 }
+
+function getCreditsSpent(w2plink){
+    if (!w2plink || w2plink == "") return 0;
+
+        var taskId = getParams(w2plink).task_id;
+
+        var xmlhttp = new XMLHttpRequest();
+
+        xmlhttp.open("GET", "https://atmire.com/w2p-api/project/x/task/" + taskId + "?username=" + username + "&password=" + password, false);
+
+        xmlhttp.send();
+
+        if (xmlhttp.status != 200) return 0;
+
+        var response = JSON.parse(xmlhttp.responseText);
+        return response.task.task_hours_worked;
+}
+
+var getParams = function (url) {
+	var params = {};
+	var parser = document.createElement('a');
+	parser.href = url;
+	var query = parser.search.substring(1);
+	var vars = query.split('&');
+	for (var i = 0; i < vars.length; i++) {
+		var pair = vars[i].split('=');
+		params[pair[0]] = decodeURIComponent(pair[1]);
+	}
+	return params;
+};

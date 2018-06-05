@@ -156,7 +156,11 @@ function getCreditsSpent(w2plink, username, password){
         if (xmlhttp.status != 200) return 0;
 
         var response = JSON.parse(xmlhttp.responseText);
-        return response.task.task_hours_worked;
+        var time = response.task.task_hours_worked;
+
+        var credits = Math.ceil(time * 4);
+
+        return credits;
 }
 
 var getParams = function (url) {

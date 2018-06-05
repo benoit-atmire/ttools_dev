@@ -30,7 +30,7 @@ TrelloPowerUp.initialize({
 
 function getAllBadges(t, long) {
 
-   return Promise.all([t.card('all'), t.getAll(), t.get('board', 'shared', 'settings', '')])
+   return Promise.all([t.card('all'), t.getAll(), t.get('board', 'shared', 'settings', ''), t.get('board', 'private', 'settings', '')])
         .then(function (values) {
             var card = values[0];
 
@@ -50,6 +50,9 @@ function getAllBadges(t, long) {
 
             if (hasSettings && settings.c_thresholds[card.idList]) threshold_creation = settings.c_thresholds[card.idList];
             if (hasSettings && settings.u_thresholds[card.idList]) threshold_update = settings.u_thresholds[card.idList];
+
+            var W2Psettings = values[3];
+            var hasW2PSettings = (W2Psettings != '' && W2Psettings.username && W2Psettings.password);
 
             var badges = [{
                   icon: daysSinceCreation < threshold_creation ? CLOCK_ICON : CLOCK_ICON_WHITE,
@@ -77,12 +80,13 @@ function getAllBadges(t, long) {
                         title: 'Task / Project'
                     });
 
-                    // If not long (only show on detailed view):
+                    // If W2P credentials are known
 
-                    if (!long){
+                    if (hasW2PSettings){
                         badges.push({
                             icon: MONEY_ICON,
-                            text: getCreditsSpent(w2plink)
+                            text: getCreditsSpent(w2plink, W2Psettings.username, W2Psettings.password),
+                            title: 'Credits'
                         });
                     }
                 }
@@ -138,7 +142,7 @@ function getCardButtons(t) {
     ;
 }
 
-function getCreditsSpent(w2plink){
+function getCreditsSpent(w2plink, username, password){
     if (!w2plink || w2plink == "") return 0;
 
         var taskId = getParams(w2plink).task_id;

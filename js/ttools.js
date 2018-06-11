@@ -85,6 +85,7 @@ function getAllBadges(t, long) {
                     if (hasW2PSettings){
                         badges.push({
                             icon: MONEY_ICON,
+                            // TODO: make asynchronous
                             text: getCreditsSpent(w2plink, W2Psettings.username, W2Psettings.password),
                             title: 'Credits'
                         });
@@ -145,22 +146,56 @@ function getCardButtons(t) {
 function getCreditsSpent(w2plink, username, password){
     if (!w2plink || w2plink == "") return 0;
 
-        var taskId = getParams(w2plink).task_id;
+    var taskId = getParams(w2plink).task_id;
 
+    return new Promise(function (resolve, reject) {
         var xmlhttp = new XMLHttpRequest();
+        xmlhttp.open("GET", "https://atmire.com/w2p-api/project/x/task/" + taskId + "?username=" + username + "&password=" + password);
+        xmlhttp.onload = function () {
+          if (this.status >= 200 && this.status < 300) {
+            var response = JSON.parse(xmlhttp.responseText);
+            var time = response.task.task_hours_worked;
 
-        xmlhttp.open("GET", "https://atmire.com/w2p-api/project/x/task/" + taskId + "?username=" + username + "&password=" + password, false);
+            var credits = Math.ceil(time * 4);
 
+            resolve(credits);
+
+          } else {
+            reject({
+              status: this.status,
+              statusText: xmlhttp.statusText
+            });
+          }
+        };
+        xmlhttp.onerror = function () {
+          reject({
+            status: this.status,
+            statusText: xmlhttp.statusText
+          });
+        };
         xmlhttp.send();
+    });
+}
 
-        if (xmlhttp.status != 200) return 0;
+function getCreditsSpent_sync(w2plink, username, password){
+    if (!w2plink || w2plink == "") return 0;
 
-        var response = JSON.parse(xmlhttp.responseText);
-        var time = response.task.task_hours_worked;
+    var taskId = getParams(w2plink).task_id;
 
-        var credits = Math.ceil(time * 4);
+    var xmlhttp = new XMLHttpRequest();
 
-        return credits;
+    xmlhttp.open("GET", "https://atmire.com/w2p-api/project/x/task/" + taskId + "?username=" + username + "&password=" + password, false);
+
+    xmlhttp.send();
+
+    if (xmlhttp.status != 200) return 0;
+
+    var response = JSON.parse(xmlhttp.responseText);
+    var time = response.task.task_hours_worked;
+
+    var credits = Math.ceil(time * 4);
+
+    return credits;
 }
 
 var getParams = function (url) {

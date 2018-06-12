@@ -113,14 +113,11 @@ function getAllBadges(t, long) {
 
             console.log(pluginData);
 
-            var hasSettings = (pluginData.shared.settings && pluginData.shared.settings != '' && pluginData.shared.settings.c_thresholds && pluginData.shared.settings.u_thresholds);
-            var hasW2PSettings = (pluginData.private.W2Psettings && pluginData.private.W2Psettings != '' && pluginData.private.W2Psettings.username && pluginData.private.W2Psettings.password);
-
             var w2plink = "";
             var W2Psettings = {};
 
             if (pluginData && pluginData.card && pluginData.card.shared) var w2plink = pluginData.card.shared.w2plink || "";
-            if (pluginData && pluginData.board && pluginData.board.private) var W2Psettings = pluginData.private.W2Psettings;
+            if (pluginData && pluginData.board && pluginData.board.private) var W2Psettings = pluginData.private.settings;
 
 
             return Promise.all([t.card('all'), getCreditsSpent(w2plink, W2Psettings.username, W2Psettings.password), t.getAll()]);
@@ -145,7 +142,7 @@ function getAllBadges(t, long) {
             if (hasSettings && settings.c_thresholds[card.idList]) threshold_creation = settings.c_thresholds[card.idList];
             if (hasSettings && settings.u_thresholds[card.idList]) threshold_update = settings.u_thresholds[card.idList];
 
-            var W2Psettings = values[2].board.private.W2Psettings;
+            var W2Psettings = values[2].board.private.settings;
             var hasW2PSettings = (W2Psettings != '' && W2Psettings.username && W2Psettings.password);
 
             var badges = [{

@@ -28,7 +28,7 @@ TrelloPowerUp.initialize({
     }
 });
 
-function getAllBadges(t, long) {
+function getAllBadges_old(t, long) {
 
    return Promise.all([t.card('all'), t.getAll(), t.get('board', 'shared', 'settings', ''), t.get('board', 'private', 'settings', '')])
         .then(function (values) {
@@ -87,6 +87,99 @@ function getAllBadges(t, long) {
                             icon: MONEY_ICON,
                             // TODO: make asynchronous
                             text: getCreditsSpent(w2plink, W2Psettings.username, W2Psettings.password),
+                            title: 'Credits'
+                        });
+                    }
+                }
+
+                if (gitlablink && gitlablink != "") {
+                    badges.push({
+                        icon: GIT_ICON,
+                        text: long ? 'Git' : null,
+                        url: gitlablink,
+                        title: 'Branch / Commit'
+                    });
+                }
+            }
+            return badges;
+
+        })
+}
+
+function getAllBadges(t, long) {
+
+   return t.getAll()
+        .then(function(pluginData){
+
+            var data = {};
+
+            var hasSettings = (pluginData.shared.settings && pluginData.shared.settings != '' && pluginData.shared.settings.c_thresholds && pluginData.shared.settings.u_thresholds);
+            var hasW2PSettings = (pluginData.private.W2Psettings && pluginData.private.W2Psettings != '' && pluginData.private.W2Psettings.username && pluginData.private.W2Psettings.password);
+
+            var w2plink = "";
+            var W2Psettings = {};
+
+            if (pluginData && pluginData.card && pluginData.card.shared) var w2plink = pluginData.card.shared.w2plink || "";
+            if (pluginData && pluginData.board && pluginData.board.private) var W2Psettings = pluginData.private.W2Psettings;
+
+
+            return Promise.all([t.card('all'), getCreditsSpent(w2plink, W2Psettings.username, W2Psettings.password), t.getAll()]);
+        })
+        .then(function (values) {
+            var card = values[0];
+
+            var today = new Date();
+            var creation = new Date(1000*parseInt(card.id.substring(0,8),16));
+            var lastUpdate = new Date(card.dateLastActivity);
+            var daysSinceCreation = Math.round(Math.abs((today.getTime() - creation.getTime())/(24*60*60*1000)));
+            var daysSinceUpdate = Math.round(Math.abs((today.getTime() - lastUpdate.getTime())/(24*60*60*1000)));
+
+            // Defaults when no setting
+
+            var threshold_creation = 60;
+            var threshold_update = 7;
+
+            var settings = values[2].board.shared.settings;
+            var hasSettings = (settings != '' && settings.c_thresholds && settings.u_thresholds);
+
+            if (hasSettings && settings.c_thresholds[card.idList]) threshold_creation = settings.c_thresholds[card.idList];
+            if (hasSettings && settings.u_thresholds[card.idList]) threshold_update = settings.u_thresholds[card.idList];
+
+            var W2Psettings = values[2].board.private.W2Psettings;
+            var hasW2PSettings = (W2Psettings != '' && W2Psettings.username && W2Psettings.password);
+
+            var badges = [{
+                  icon: daysSinceCreation < threshold_creation ? CLOCK_ICON : CLOCK_ICON_WHITE,
+                  text: daysSinceCreation + (long ? " day" + (daysSinceCreation < 2 ? "" : "s") : ""),
+                  color: daysSinceCreation < threshold_creation ? null : 'red',
+                  title: 'Open for'
+                },
+                {
+                  icon: daysSinceUpdate < threshold_update ? HOURGLASS_ICON : HOURGLASS_ICON_WHITE,
+                  text: daysSinceUpdate + (long ? " day" + (daysSinceUpdate < 2 ? "" : "s") : ""),
+                  color: daysSinceUpdate < threshold_update ? null : 'red',
+                  title: 'Inactive for'
+                }
+            ];
+
+            if (values[1] && values[1].card && values[1].card.shared) {
+                var w2plink = values[1].card.shared.w2plink || "";
+                var gitlablink = values[1].card.shared.gitlablink || "";
+
+                if (w2plink && w2plink != "") {
+                    badges.push({
+                        icon: W2P_ICON,
+                        text: long ? 'W2P' : null,
+                        url: w2plink,
+                        title: 'Task / Project'
+                    });
+
+                    // If W2P credentials are known
+
+                    if (hasW2PSettings){
+                        badges.push({
+                            icon: MONEY_ICON,
+                            text: values[1] || 0,
                             title: 'Credits'
                         });
                     }

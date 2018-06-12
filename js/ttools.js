@@ -33,7 +33,7 @@ function getAllBadges(t, long) {
    return Promise.all([t.card('all'), t.getAll(), t.get('board', 'shared', 'settings', ''), t.get('board', 'private', 'settings', '')])
         .then(function (values) {
             var card = values[0];
-            Console.log(values[1]);
+            console.log(values[1]);
             var today = new Date();
             var creation = new Date(1000*parseInt(card.id.substring(0,8),16));
             var lastUpdate = new Date(card.dateLastActivity);

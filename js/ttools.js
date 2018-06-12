@@ -111,7 +111,7 @@ function getAllBadges(t, long) {
    return t.getAll()
         .then(function(pluginData){
 
-            var data = {};
+            console.log(pluginData);
 
             var hasSettings = (pluginData.shared.settings && pluginData.shared.settings != '' && pluginData.shared.settings.c_thresholds && pluginData.shared.settings.u_thresholds);
             var hasW2PSettings = (pluginData.private.W2Psettings && pluginData.private.W2Psettings != '' && pluginData.private.W2Psettings.username && pluginData.private.W2Psettings.password);

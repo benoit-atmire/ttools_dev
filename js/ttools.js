@@ -117,7 +117,7 @@ function getAllBadges(t, long) {
             var W2Psettings = {};
 
             if (pluginData && pluginData.card && pluginData.card.shared) var w2plink = pluginData.card.shared.w2plink || "";
-            if (pluginData && pluginData.board && pluginData.board.private) var W2Psettings = pluginData.private.settings;
+            if (pluginData && pluginData.board && pluginData.board.private) var W2Psettings = pluginData.board.private.settings;
 
 
             return Promise.all([t.card('all'), getCreditsSpent(w2plink, W2Psettings.username, W2Psettings.password), t.getAll()]);
@@ -159,9 +159,9 @@ function getAllBadges(t, long) {
                 }
             ];
 
-            if (values[1] && values[1].card && values[1].card.shared) {
-                var w2plink = values[1].card.shared.w2plink || "";
-                var gitlablink = values[1].card.shared.gitlablink || "";
+            if (values[2] && values[21].card && values[2].card.shared) {
+                var w2plink = values[2].card.shared.w2plink || "";
+                var gitlablink = values[2].card.shared.gitlablink || "";
 
                 if (w2plink && w2plink != "") {
                     badges.push({

@@ -159,7 +159,7 @@ function getAllBadges(t, long) {
                 }
             ];
 
-            if (values[2] && values[21].card && values[2].card.shared) {
+            if (values[2] && values[2].card && values[2].card.shared) {
                 var w2plink = values[2].card.shared.w2plink || "";
                 var gitlablink = values[2].card.shared.gitlablink || "";
 

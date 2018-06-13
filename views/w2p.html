@@ -86,11 +86,12 @@
                  "dept_ids" : "array(1)",
                  "task_priority" : 0
             };
-            request.setRequestHeader("Content-Type", "application/json");
+
 
 
             // Set up and make the request.
             request.open('POST', 'https://atmire.com/w2p-api/project/' + result.pid + '/tasks', true);
+            request.setRequestHeader("Content-Type", "application/json");
             request.send(JSON.stringify(data));
       });
 

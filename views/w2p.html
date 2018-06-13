@@ -158,11 +158,12 @@
         if (request.readyState === 4) {
           if (request.status === 200) {
             var response = JSON.parse(request.responseText);
-
+            console.log(response);
             for (var i in response.projects){
               var option = document.createElement('option');
               option.value = response.projects[i].project_name + " (" +  response.projects[i].company_name + ")::" + response.projects[i].project_id;
               dataList.appendChild(option);
+              console.log(response.projects[i].project_name + " (" +  response.projects[i].company_name + ")::" + response.projects[i].project_id);
             }
 
 

@@ -83,15 +83,16 @@
                  "task_owner" : result.pm,
                  "description": "Trello-generated. Please create relevant subtasks for the corresponding ticket and assign them to the relevant person.",
                  "task_dynamic" : 1,
-                 "dept_ids" : "array(1)",
-                 "task_priority" : 0
+                 "dept_ids" : "array(1)"
             };
 
             var url = 'https://atmire.com/w2p-api/project/' + result.pid + '/tasks?';
 
             for (var field in data){
-                url += field + "=" + data[field];
+                url += field + "=" + data[field] + "&";
             }
+
+            url += "task_priority=0";
 
             // Set up and make the request.
             request.open('POST', url, true);

@@ -173,18 +173,12 @@ function getCreditsSpent(w2plink, username, password){
             resolve(credits);
 
           } else {
-            reject({
-              status: this.status,
-              statusText: xmlhttp.statusText
-            });
+            resolve(0);
           }
         };
         xmlhttp.onerror = function () {
-          reject({
-            status: this.status,
-            statusText: xmlhttp.statusText
-          });
-        };
+          resolve(0);
+        }
         xmlhttp.send();
     });
 }

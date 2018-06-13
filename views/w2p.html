@@ -110,7 +110,7 @@
       })
       .then(function(settings){
           loadUsers(settings.username, settings.password);
-          loadProjects(set.username, settings.password);
+          loadProjects(settings.username, settings.password);
       })
       .then(function(){
         t.sizeTo('#w2p').done();

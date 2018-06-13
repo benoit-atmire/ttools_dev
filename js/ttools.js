@@ -33,7 +33,7 @@ function getAllBadges(t, long) {
    return t.getAll()
         .then(function(pluginData){
 
-            console.log(pluginData);
+            //console.log(pluginData);
 
             var w2plink = "";
             var W2Psettings = {};

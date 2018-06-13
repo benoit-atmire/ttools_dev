@@ -14,15 +14,7 @@
     <fieldset id="new" style="display: none;">
         <label for="projects">Project:</label>
         <input type="text" list="projects_list" name="projects" id="projects"/>
-        <datalist id="projects_list">
-
-        </datalist>
-
-        <label for="users">Owner:</label>
-        <input type="text" list="users_list" name="users" id="users"/>
-        <datalist id="users_list">
-
-        </datalist>
+        <datalist id="projects_list"></datalist>
 
         <input type="hidden" id="cardname" />
 
@@ -70,25 +62,35 @@
               }
             };
 
-           var userid = document.getElementById('users').value;
-           userid = userid.split("::")[1];
+          var project = document.getElementById('projects').value;
+          var options = document.querySelectorAll('#projects_list option');
+          var result = {};
+
+          for (var i = 0 ; i < options.length ; i++){
+            if (options[i].value == project){
+                result.pm = getUserId(options[i].getAttribute('pm')); // TODO: remove the getUserId call
+                result.tl = getUserId(options[i].getAttribute('tl')); // TODO: remove the getUserId call
+                result.pid = options[i].getAttribute('pid');
+              break;
+            }
+          }
+
 
             var data = {
                 "username": settings.username,
                  "password": settings.password,
                  "task_name" : document.getElementById('cardname').value,
-                 "task_owner" : userid,
+                 "task_owner" : result.pm,
                  "description": "Trello-generated. Please create relevant subtasks for the corresponding ticket and assign them to the relevant person.",
                  "task_dynamic" : 1,
                  "dept_ids" : "array(1)",
                  "task_priority" : 0
             };
             request.setRequestHeader("Content-Type", "application/json");
-            var pid = document.getElementById('projects').value;
-            pid = pid.split("::")[1];
+
 
             // Set up and make the request.
-            request.open('POST', 'https://atmire.com/w2p-api/project/' + pid + '/tasks', true);
+            request.open('POST', 'https://atmire.com/w2p-api/project/' + result.pid + '/tasks', true);
             request.send(JSON.stringify(data));
       });
 
@@ -109,7 +111,6 @@
          return t.get('board', 'private', 'settings');
       })
       .then(function(settings){
-          loadUsers(settings.username, settings.password);
           loadProjects(settings.username, settings.password);
       })
       .then(function(){
@@ -118,32 +119,25 @@
     });
 
 
-    function loadUsers(username, password) {
+    function getUserId(username) {
+    // TODO: TO BE DEPRECATED WHEN PROJECTS OVERVIEW WILL CONTAIN USER IDS
 
-      var url = "https://atmire.com/w2p-api/contacts?username=" + username + "&password=" + password;
-
-      var request = new XMLHttpRequest();
-      var dataList = document.getElementById('users_list');
-
-            // Handle state changes for the request.
-      request.onreadystatechange = function(response) {
-        if (request.readyState === 4) {
-          if (request.status === 200) {
-            var response = JSON.parse(request.responseText);
-
-            for (var i in response.contacts){
-              var option = document.createElement('option');
-              option.value = response.contacts[i] + " ::" + i;
-              dataList.appendChild(option);
-            }
-
-
-          }
-        }
+      var users = {
+        "Nick" : 59,
+        "Benoît" : 36,
+        "David" : 62,
+        "Lieven" : 2,
+        "Bram" : 13,
+        "Ben" :11,
+        "Tom" : 46,
+        "Philip" : 35,
+        "Kevin" : 3,
+        "Jonas" : 41,
+        "Mark" : 14,
+        "Chris" : 42
       };
 
-      request.open('GET', url, true);
-      request.send();
+      return users[username];
     }
 
     function loadProjects(username, password) {
@@ -161,9 +155,12 @@
             console.log(response);
             for (var i in response.projects){
               var option = document.createElement('option');
-              option.value = response.projects[i].project_name + " (" +  response.projects[i].company_name + ")::" + response.projects[i].project_id;
+              option.value = response.projects[i].project_name + " (" +  response.projects[i].company_name + ")";
+              option.setAttribute("pid", response.projects[i].project_id);
+              option.setAttribute("pm", response.projects[i].pm); // TODO: replace with pm_id
+              option.setAttribute("tl", response.projects[i].tl); // TODO: replace with tl_id
               dataList.appendChild(option);
-              console.log(response.projects[i].project_name + " (" +  response.projects[i].company_name + ")::" + response.projects[i].project_id);
+              //console.log(response.projects[i].project_name + " (" +  response.projects[i].company_name + ")::" + response.projects[i].project_id);
             }
 
 

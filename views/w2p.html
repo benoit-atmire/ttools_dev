@@ -58,6 +58,7 @@
                   var response = JSON.parse(request.responseText);
                   var taskurl = "https://web2project.atmire.com/web2project/index.php?m=tasks&a=view&task_id=" + response.task_id;
                   document.getElementById('w2plink').value = taskurl;
+                  document.getElementById('save').disabled = true;
                 }
               }
             };
@@ -118,7 +119,13 @@
          return t.get('board', 'private', 'settings');
       })
       .then(function(settings){
-          loadProjects(settings.username, settings.password);
+          if (settings && settings.username && settings.username != "" && settings.password && settings.password != ""){
+            loadProjects(settings.username, settings.password);
+          }
+          
+          else {
+            document.getElementById('new').style.display = "none";
+          }
       })
       .then(function(){
         t.sizeTo('#w2p').done();

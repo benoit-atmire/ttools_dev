@@ -84,8 +84,7 @@
                  "task_owner" : result.pm,
                  "task_description": "Trello-generated. Please create relevant subtasks for the corresponding ticket and assign them to the relevant person.",
                  "task_dynamic" : 1,
-                 "dept_ids" : "array(1)",
-                 "task_priority" : 0
+                 "dept_ids" : "array(1)"
             };
 
             if (result.tl != null && result.tl > -1) {
@@ -99,7 +98,7 @@
                 url += field + "=" + data[field] + "&";
             }
 
-            url += "task_id=0";
+            url += "task_priority=0";
 
             // Set up and make the request.
             request.open('POST', url, true);

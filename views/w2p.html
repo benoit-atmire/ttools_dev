@@ -87,6 +87,11 @@
                  "dept_ids" : "array(1)"
             };
 
+            if (result.tl != null && result.tl > -1) {
+                 data.hassign = result.tl;
+                 data.hperc_assign = result.tl + "=100";
+            }
+
             var url = 'https://atmire.com/w2p-api/project/' + result.pid + '/tasks?';
 
             for (var field in data){

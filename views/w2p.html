@@ -101,7 +101,7 @@
             url += "task_priority=0";
 
             // Set up and make the request.
-            request.open('POST', url, true);
+            request.open('POST', encodeURI(url), true);
             //request.setRequestHeader("Content-Type", "application/json");
             request.send(JSON.stringify(data));
             //request.send();
@@ -158,7 +158,7 @@
               option.value = response.projects[i].project_name + " (" +  response.projects[i].company_name + ")";
               option.setAttribute("pid", response.projects[i].project_id);
               option.setAttribute("pm", response.projects[i].pm_id);
-              option.setAttribute("tl", response.projects[i].tl_id); 
+              option.setAttribute("tl", response.projects[i].tl_id);
               dataList.appendChild(option);
               //console.log(response.projects[i].project_name + " (" +  response.projects[i].company_name + ")::" + response.projects[i].project_id);
             }

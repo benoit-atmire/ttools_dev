@@ -69,8 +69,8 @@
 
           for (var i = 0 ; i < options.length ; i++){
             if (options[i].value == project){
-                result.pm = getUserId(options[i].getAttribute('pm')); // TODO: remove the getUserId call
-                result.tl = getUserId(options[i].getAttribute('tl')); // TODO: remove the getUserId call
+                result.pm = options[i].getAttribute('pm');
+                result.tl = options[i].getAttribute('tl');
                 result.pid = options[i].getAttribute('pid');
               break;
             }
@@ -138,26 +138,7 @@
     });
 
 
-    function getUserId(username) {
-    // TODO: TO BE DEPRECATED WHEN PROJECTS OVERVIEW WILL CONTAIN USER IDS
 
-      var users = {
-        "Nick" : 59,
-        "Benoît" : 36,
-        "David" : 62,
-        "Lieven" : 2,
-        "Bram" : 13,
-        "Ben" :11,
-        "Tom" : 46,
-        "Philip" : 35,
-        "Kevin" : 3,
-        "Jonas" : 41,
-        "Mark" : 14,
-        "Chris" : 42
-      };
-
-      return users[username];
-    }
 
     function loadProjects(username, password) {
 
@@ -176,8 +157,8 @@
               var option = document.createElement('option');
               option.value = response.projects[i].project_name + " (" +  response.projects[i].company_name + ")";
               option.setAttribute("pid", response.projects[i].project_id);
-              option.setAttribute("pm", response.projects[i].pm); // TODO: replace with pm_id
-              option.setAttribute("tl", response.projects[i].tl); // TODO: replace with tl_id
+              option.setAttribute("pm", response.projects[i].pm_id);
+              option.setAttribute("tl", response.projects[i].tl_id); 
               dataList.appendChild(option);
               //console.log(response.projects[i].project_name + " (" +  response.projects[i].company_name + ")::" + response.projects[i].project_id);
             }

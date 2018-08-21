@@ -17,6 +17,7 @@
         <datalist id="projects_list"></datalist>
 
         <input type="hidden" id="cardname" />
+        <input type="hidden" id="cardlink" />
 
         <button id="addnew">Create new</button>
     </fieldset>
@@ -46,7 +47,7 @@
 
       // Create new task, return url in w2plink field & re-enable button once done
 
-      return t.get('board', 'private', 'settings')
+      return t.get('board', 'shared', 'settings')
       .then (function(settings){
             // Create a new XMLHttpRequest.
             var request = new XMLHttpRequest();
@@ -83,7 +84,7 @@
                  "password": settings.password,
                  "task_name" : document.getElementById('cardname').value,
                  "task_owner" : result.pm,
-                 "task_description": "Trello-generated. Please create relevant subtasks for the corresponding ticket and assign them to the relevant person.",
+                 "task_description": "Trello-generated. Please create relevant subtasks for the corresponding ticket and assign them to the relevant person.\nSee "+ document.getElementById('cardlink').value + "for details.",
                  "task_dynamic" : 1,
                  "dept_ids" : "array(1)"
             };
@@ -122,6 +123,7 @@
       })
       .then(function(carddata){
          document.getElementById('cardname').value = carddata.name;
+         document.getElementById('cardlink').value = carddata.shortUrl;
          return t.get('board', 'private', 'settings');
       })
       .then(function(settings){

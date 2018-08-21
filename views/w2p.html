@@ -122,9 +122,8 @@
         return t.card('all')
       })
       .then(function(carddata){
-         console.log(carddata);
          document.getElementById('cardname').value = carddata.name;
-         document.getElementById('cardlink').value = carddata.shortUrl;
+         document.getElementById('cardlink').value = carddata.url;
          return t.get('board', 'shared', 'settings');
       })
       .then(function(settings){

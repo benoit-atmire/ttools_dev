@@ -122,6 +122,7 @@
         return t.card('all')
       })
       .then(function(carddata){
+         console.log(carddata);
          document.getElementById('cardname').value = carddata.name;
          document.getElementById('cardlink').value = carddata.shortUrl;
          return t.get('board', 'shared', 'settings');

@@ -56,6 +56,7 @@
               if (request.readyState === 4) {
                 if (request.status === 200) {
                   var response = JSON.parse(request.responseText);
+                  Console.log(response);
                   var taskurl = "https://web2project.atmire.com/web2project/index.php?m=tasks&a=view&task_id=" + response.task_id;
                   document.getElementById('w2plink').value = taskurl;
                   document.getElementById('save').disabled = false;

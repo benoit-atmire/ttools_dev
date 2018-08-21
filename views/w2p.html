@@ -124,7 +124,7 @@
       .then(function(carddata){
          document.getElementById('cardname').value = carddata.name;
          document.getElementById('cardlink').value = carddata.shortUrl;
-         return t.get('board', 'private', 'settings');
+         return t.get('board', 'shared', 'settings');
       })
       .then(function(settings){
           if (settings && settings.username && settings.username != "" && settings.password && settings.password != ""){

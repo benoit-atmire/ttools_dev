@@ -32,7 +32,7 @@ TrelloPowerUp.initialize({
             icon: W2P_ICON, // Must be a gray icon, colored icons not allowed.
             content: {
                 type: 'iframe',
-                url: t.signUrl('views/timelogger.html'),
+                url: 'views/timelogger.html',
                 height: 230 // Max height is 500
             }
         };

@@ -25,6 +25,17 @@ TrelloPowerUp.initialize({
         height: 184,
         width: 600
       });
+    },
+    'card-back-section': function(t, options){
+        return {
+            title: 'Log time in W2P',
+            icon: W2P_ICON, // Must be a gray icon, colored icons not allowed.
+            content: {
+                type: 'iframe',
+                url: t.signUrl('views/timelogger.html'),
+                height: 230 // Max height is 500
+            }
+        };
     }
 });
 
@@ -38,8 +49,8 @@ function getAllBadges(t, long) {
             var w2plink = "";
             var W2Psettings = {};
 
-            if (pluginData && pluginData.card && pluginData.card.shared) var w2plink = pluginData.card.shared.w2plink || "";
-            if (pluginData && pluginData.board && pluginData.board.shared) var W2Psettings = pluginData.board.shared.settings;
+            if (pluginData && pluginData.card && pluginData.card.shared)  w2plink = pluginData.card.shared.w2plink || "";
+            if (pluginData && pluginData.board && pluginData.board.shared)  W2Psettings = pluginData.board.shared.settings;
 
 
             return Promise.all([t.card('all'), getCreditsSpent(w2plink, W2Psettings.username, W2Psettings.password), t.getAll()]);
@@ -59,13 +70,13 @@ function getAllBadges(t, long) {
             var threshold_update = 7;
 
             var settings = values[2].board.shared.settings;
-            var hasSettings = (settings != '' && settings.c_thresholds && settings.u_thresholds);
+            var hasSettings = (settings !== '' && settings.c_thresholds && settings.u_thresholds);
 
             if (hasSettings && settings.c_thresholds[card.idList]) threshold_creation = settings.c_thresholds[card.idList];
             if (hasSettings && settings.u_thresholds[card.idList]) threshold_update = settings.u_thresholds[card.idList];
 
             var W2Psettings = values[2].board.shared.settings;
-            var hasW2PSettings = (W2Psettings != '' && W2Psettings.username && W2Psettings.password);
+            var hasW2PSettings = (W2Psettings !== '' && W2Psettings.username && W2Psettings.password);
 
             var badges = [{
                   icon: daysSinceCreation < threshold_creation ? CLOCK_ICON : CLOCK_ICON_WHITE,
